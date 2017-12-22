@@ -1,91 +1,55 @@
-import {Component} from '@angular/core';
-import {WorkerService} from './worker.service';
-import threads from 'threads';
-import md5 from 'js-md5';
-import {Observable} from 'rxjs/Observable';
-
-declare let importScripts;
-declare let moment;
+import {Component, OnInit} from '@angular/core';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/distinctUntilChanged';
+import {assocPath} from 'ramda';
+import {WidgetsService} from './widgets/widgets.service';
+import {Widget} from './widgets/widget.model';
+import {combineLatest} from 'rxjs/observable/combineLatest';
+import {WidgetsVisibiltyService} from './widgets/widgets-visibilty/widgets-visibilty.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
-  fromPool(pool) {
-    return new Observable(observer => {
-      pool
-        .on('done', function (data) {
-          observer.next(data);
-        })
-        .on('error', function (error) {
-          observer.error(error);
-        })
-        .on('finished', function () {
-          observer.complete();
-          pool.killAll();
-        });
-    });
+  widgets = [];
+  inView$;
+
+  constructor(private widgetsVisibiltyService: WidgetsVisibiltyService,
+              private widgetsService: WidgetsService) {
   }
 
-  constructor(private _worker: WorkerService) {
-    //   const thread = threads.spawn(function ([a, b]) {
-    //     // Remember that this function will be run in another execution context.
-    //     return new Promise(resolve => {
-    //       setTimeout(() => resolve(a + b), 4000)
-    //     })
-    //   });
-
-    //   thread
-    //     .send([ 9, 12 ])
-    //     // The handlers come here: (none of them is mandatory)
-    //     .on('message', function(response) {
-    //       console.log('9 + 12 = ', response);
-    //       thread.kill();
-    //     });
-    // }
-
-    const pool = new threads.Pool();
-    const pool2 = new threads.Pool();
-    const widgetProcess = pool.run((input, done) => {
-        importScripts('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js');
-        done(input);
-      }
-    ).send({data: 1});
-
-    pool.run((input, done) => {
-        importScripts('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js');
-        done(input);
-      }
-    ).send({data: 1});
-
-
-
-    this.fromPool(widgetProcess).subscribe(next => {
-      console.log(next);
-    }, err => {
-    }, () => {
-      console.log('completed');
-    });
-
-    // Promise.all([
-    //   jobC.send({data: 1}).promise(),
-    //   jobC.send({data: 2}).promise()
-    // ]).then(function allResolved() {
-    //   console.log('Everything done! It\'s closing time...');
+  ngOnInit() {
+    this.inView$ = this.widgetsVisibiltyService.select();
+    for (var i = 0, len = 10; i < len; i++) {
+      this.widgets.push({
+        id: i + 1,
+        name: `Widget - ${i + 1}`,
+        filters: {
+          date: {
+            from: 'a',
+            to: 'b'
+          },
+          interactives: [Math.random(), Math.random()]
+        }
+      });
+    }
+    // this.widgetsService.selectWidgets().subscribe(widgets => {
+    //   console.log(widgets);
     // });
-
-    // jobC
-    //   .on('done', function (hash, input, d) {
-    //     console.log(d);
-    //     ;
-    //     console.log(`Job C hashed: md5("${input}") = "${hash}"`);
-    //   });
-    // .on('finished', function() {
-    //   console.log('Everything done, shutting down the thread pool.');
-    //   pool.killAll();
+    // this.widgetsService.selectActive().subscribe(active => {
+    //   console.log(active);
     // });
+    //
+    // combineLatest(
+    //   this.widgetsService.selectWidgets(),
+    //   this.widgetsService.selectActive()
+    // ).subscribe(([widgets, active]) => {
+    //   console.log(active, widgets);
+    // });
+    //
+    // this.widgetsService.addWidget(new Widget({id: 1}));
   }
 }

@@ -22,7 +22,9 @@
     "@angular/platform-browser-dynamic": "^4.2.4",
     "@angular/router": "^4.2.4",
     "core-js": "^2.4.1",
+    "in-viewport": "^3.6.0",
     "js-md5": "^0.7.2",
+    "ramda": "^0.25.0",
     "rxjs": "^5.4.2",
     "threads": "^0.10.0",
     "zone.js": "^0.8.14"
