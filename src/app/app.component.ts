@@ -5,7 +5,7 @@ import {assocPath} from 'ramda';
 import {WidgetsService} from './widgets/widgets.service';
 import {Widget} from './widgets/widget.model';
 import {combineLatest} from 'rxjs/observable/combineLatest';
-import {WidgetsVisibiltyService} from './widgets/widgets-visibilty/widgets-visibilty.service';
+import {WidgetsUIStateService} from "./widgets/widget-ui-state/widget-ui-state.service";
 
 @Component({
   selector: 'app-root',
@@ -17,12 +17,12 @@ export class AppComponent implements OnInit {
   widgets = [];
   inView$;
 
-  constructor(private widgetsVisibiltyService: WidgetsVisibiltyService,
+  constructor(private widgetUIStateService: WidgetsUIStateService,
               private widgetsService: WidgetsService) {
   }
 
   ngOnInit() {
-    this.inView$ = this.widgetsVisibiltyService.select();
+    this.inView$ = this.widgetUIStateService.select();
     for (var i = 0, len = 10; i < len; i++) {
       this.widgets.push({
         id: i + 1,

@@ -7,6 +7,7 @@ import {WidgetsModule} from './widgets/widgets.module';
 import { InViewDirective } from './in-view.directive';
 import { WidgetComponent } from './widget/widget.component';
 import { WidgetContainerComponent } from './widget-container/widget-container.component';
+import {InViewportModule} from "ng-in-viewport";
 
 @NgModule({
   declarations: [
@@ -17,7 +18,7 @@ import { WidgetContainerComponent } from './widget-container/widget-container.co
   ],
   imports: [
     BrowserModule,
-    WidgetsModule
+    WidgetsModule,
   ],
   providers: [WorkerService],
   bootstrap: [AppComponent]

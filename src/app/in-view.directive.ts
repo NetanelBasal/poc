@@ -1,10 +1,25 @@
-import inView from 'in-viewport';
-import {AfterViewInit, Directive, ElementRef, Input, NgZone, OnDestroy} from '@angular/core';
-import {WidgetsVisibiltyService} from './widgets/widgets-visibilty/widgets-visibilty.service';
+import inView from "in-viewport";
+import {AfterViewInit, Directive, ElementRef, Input, NgZone, OnDestroy} from "@angular/core";
+import {WidgetsUIStateService} from "./widgets/widget-ui-state/widget-ui-state.service";
+
+// var observer;
+//
+// var options = {
+//   root: document.getElementById("container"),
+//   rootMargin: "0px"
+// };
+//
+// observer = new IntersectionObserver((entries) => {
+//   entries.forEach(entry => {
+//     if (entry["isIntersecting"]) {
+//       console.warn(entry.target);
+//     }
+//   });
+// }, options);
 
 
 @Directive({
-  selector: '[inView]'
+  selector: "[inView]"
 })
 export class InViewDirective implements AfterViewInit, OnDestroy {
   private _selector;
@@ -15,29 +30,26 @@ export class InViewDirective implements AfterViewInit, OnDestroy {
     this._widgetId = selector;
     this._selector = `[data-widget-id="${selector}"]`;
   };
-
-  get inView() {
-    return this._selector;
-  }
-
+  
   constructor(private _host: ElementRef,
-              private _widgetsVisibiltyService: WidgetsVisibiltyService,
+              private widgetUIStateService: WidgetsUIStateService,
               private _zone: NgZone) {
   }
 
 
   ngAfterViewInit() {
-    const widgetElement = document.querySelector(this.inView);
+    const widgetElement = document.querySelector(this._selector);
+    const widgetsContainer = document.getElementById("container");
 
-    const widgetsContainer = document.getElementById('container');
     this._zone.runOutsideAngular(() => {
       this._dispose = inView(widgetElement, {container: widgetsContainer, offset: 30}, (_) => {
         this._zone.run(() => {
-
-          this._widgetsVisibiltyService.update(this._widgetId);
+          this.widgetUIStateService.update(this._widgetId);
         });
       });
     });
+
+    // observer.observe(widgetElement);
 
   }
 

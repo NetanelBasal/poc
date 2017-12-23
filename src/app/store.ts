@@ -22,7 +22,7 @@ export class Store<T> {
 
   update(newStateFn: (state: T) => T) {
     const newState = newStateFn(this.value());
-    console.log('newState', newState);
+    // console.log('newState', newState);
     this.dispatch(newState);
   }
 

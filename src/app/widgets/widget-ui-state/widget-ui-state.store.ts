@@ -1,15 +1,15 @@
 import {HashMap, Store} from '../../store';
-import {WidgetsVisibilty} from './widgets-visibilty.model';
+import {WidgetUIState} from "./widgets-ui-state.model";
 
 interface State {
-  entities: HashMap<WidgetsVisibilty>;
+  entities: HashMap<WidgetUIState>;
 }
 
 const initialState: State = {
   entities: {}
 };
 
-export class WidgetsVisibiltyStore extends Store<State> {
+export class WidgetUIStateStore extends Store<State> {
   constructor() {
     super(initialState);
   }
