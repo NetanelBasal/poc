@@ -7,7 +7,6 @@ import {Observable} from "rxjs/Observable";
 export class WidgetsUIStateService {
 
   constructor(private widgetUIStateStore: WidgetUIStateStore) {
-
   }
 
   select() {

@@ -4,7 +4,6 @@ import {WidgetQueryStore} from "./widget-query.store";
 import {timer} from "rxjs/observable/timer";
 import "rxjs/add/operator/mapTo";
 import {WidgetResponse} from "../widget-response/widget-response.model";
-import {WidgetResponseStore} from "../widget-response/widget-response.store";
 import {WidgetResponseService} from "../widget-response/widget-response.service";
 
 @Injectable()

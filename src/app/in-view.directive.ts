@@ -30,7 +30,7 @@ export class InViewDirective implements AfterViewInit, OnDestroy {
     this._widgetId = selector;
     this._selector = `[data-widget-id="${selector}"]`;
   };
-  
+
   constructor(private _host: ElementRef,
               private widgetUIStateService: WidgetsUIStateService,
               private _zone: NgZone) {
@@ -38,7 +38,7 @@ export class InViewDirective implements AfterViewInit, OnDestroy {
 
 
   ngAfterViewInit() {
-    const widgetElement = document.querySelector(this._selector);
+    const widgetElement = this._host.nativeElement;
     const widgetsContainer = document.getElementById("container");
 
     this._zone.runOutsideAngular(() => {

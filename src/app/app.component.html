@@ -1,8 +1,5 @@
-<div style="display: flex; flex-wrap: wrap;  height: 500px;
-     overflow-y: auto;" id="container">
+<div id="container">
   <div *ngFor="let widget of widgets">
-    <widget-container [widgetId]="widget.id" [inView]="widget.id">
-      <widget></widget>
-    </widget-container>
+    <widget-container [widgetId]="widget.id" [inView]="widget.id"></widget-container>
   </div>
 </div>

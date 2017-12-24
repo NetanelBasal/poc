@@ -7,17 +7,55 @@ import {WidgetQueryService} from "../widgets/widget-query/widget-query.service";
 import "rxjs/add/operator/take";
 import {WidgetResponseService} from "../widgets/widget-response/widget-response.service";
 import {WidgetsWorkerService} from "../widgets/widgets-worker/widgets-worker.service";
+import {BarWidgetComponent} from "../bar-widget/bar-widget.component";
+import {PieWidgetComponent} from "../pie-widget/pie-widget.component";
+import {of} from "rxjs/observable/of";
+
+const widgetConfig = {
+  1: {
+    type: BarWidgetComponent
+  },
+  2: {
+    type: PieWidgetComponent
+  },
+  3: {
+    type: BarWidgetComponent
+  },
+  4: {
+    type: PieWidgetComponent
+  },
+  5: {
+    type: BarWidgetComponent
+  },
+  6: {
+    type: PieWidgetComponent
+  },
+  7: {
+    type: BarWidgetComponent
+  },
+  8: {
+    type: PieWidgetComponent
+  },
+  9: {
+    type: BarWidgetComponent
+  },
+  10: {
+    type: PieWidgetComponent
+  }
+};
 
 @Component({
   selector: "widget-container",
   template: `
-    <ng-content></ng-content>
+    <widget [ready]="ready | async" [widgetConfig]="widgetConfig | async"></widget>
   `,
   styleUrls: ["./widget-container.component.css"]
 })
 export class WidgetContainerComponent implements OnInit {
   @Input() widgetId;
   inView: Observable<boolean>;
+  ready;
+  widgetConfig;
 
   constructor(private widgetUIStateService: WidgetsUIStateService,
               private widgetResponseService: WidgetResponseService,
@@ -26,7 +64,7 @@ export class WidgetContainerComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.inView = this.widgetUIStateService.visible(this.widgetId);
+
     this.widgetUIStateService.visible(this.widgetId).take(1).subscribe(inView => {
       this.widgetQueryService.run(this.widgetId);
     });
@@ -38,6 +76,9 @@ export class WidgetContainerComponent implements OnInit {
     this.widgetUIStateService.ready(this.widgetId).subscribe(ready => {
       console.log(`${this.widgetId} is ready - ${ready}`);
     });
+
+    this.ready = this.widgetUIStateService.ready(this.widgetId).mapTo({xAxis: Math.random(), yAxis: Math.random()});
+    this.widgetConfig = of(widgetConfig[this.widgetId]);
   }
 
 }
