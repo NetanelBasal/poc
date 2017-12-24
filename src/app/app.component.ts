@@ -36,9 +36,12 @@ export class AppComponent implements OnInit {
         }
       });
     }
-    // this.widgetsService.selectWidgets().subscribe(widgets => {
-    //   console.log(widgets);
-    // });
+    this.widgetsService.asArray().subscribe(widgets => {
+      console.warn(widgets);
+    });
+    this.widgetsService.selectWidgets().subscribe(widgets => {
+      console.warn(widgets);
+    });
     // this.widgetsService.selectActive().subscribe(active => {
     //   console.log(active);
     // });
@@ -50,6 +53,8 @@ export class AppComponent implements OnInit {
     //   console.log(active, widgets);
     // });
     //
-    // this.widgetsService.addWidget(new Widget({id: 1}));
+    setTimeout(() => {
+      this.widgetsService.addWidget(new Widget({id: 12}));
+    }, 2000)
   }
 }

@@ -1,8 +1,15 @@
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {Observable} from 'rxjs/Observable';
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
+import {Observable} from "rxjs/Observable";
+import {combineLatest} from "rxjs/observable/combineLatest";
+import {values} from "ramda";
 
 export interface HashMap<T> {
   [id: string]: T;
+}
+
+export interface Entityable {
+  ids: (number | string)[];
+  entities: HashMap<any>;
 }
 
 export class Store<T> {
@@ -14,6 +21,10 @@ export class Store<T> {
 
   select<R>(project: (store: T) => R): Observable<R> {
     return this._store$.map(project).distinctUntilChanged();
+  }
+
+  asArray() {
+    return this.select(state => state["entities"]).map(values);
   }
 
   value(): T {

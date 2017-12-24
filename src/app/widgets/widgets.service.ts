@@ -1,6 +1,7 @@
-import {Injectable} from '@angular/core';
-import {WidgetsStore} from './widgets.store';
-import {Widget} from './widget.model';
+import {Injectable} from "@angular/core";
+import {WidgetsStore} from "./widgets.store";
+import {Widget} from "./widget.model";
+import {Observable} from "rxjs/Observable";
 
 @Injectable()
 export class WidgetsService {
@@ -12,6 +13,10 @@ export class WidgetsService {
     return this.widgetsStore.select(state => state.entities);
   }
 
+  asArray(): Observable<Widget[]> {
+    return this.widgetsStore.asArray();
+  }
+
   selectActive() {
     return this.widgetsStore.select(state => state.active);
   }
@@ -20,9 +25,10 @@ export class WidgetsService {
     this.widgetsStore.update(state => {
       return {
         ...state,
+        ids: [...state.ids, widget.id],
         entities: {
           ...state.entities,
-          [widget.id]: new Widget({id: 2})
+          [widget.id]: widget
         }
       };
     });
