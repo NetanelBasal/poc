@@ -10,6 +10,7 @@ import {WidgetContainerComponent} from "./widget-container/widget-container.comp
 import {InViewportModule} from "ng-in-viewport";
 import {BarWidgetComponent} from "./bar-widget/bar-widget.component";
 import {PieWidgetComponent} from "./pie-widget/pie-widget.component";
+import {PagesModule} from "./pages/pages.module";
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import {PieWidgetComponent} from "./pie-widget/pie-widget.component";
   ],
   imports: [
     BrowserModule,
+    PagesModule,
     WidgetsModule,
   ],
   entryComponents: [BarWidgetComponent, PieWidgetComponent],

@@ -13,17 +13,12 @@ export class WidgetsUIStateService {
     return this.widgetUIStateStore.select(state => state.entities);
   }
 
-  getById(widgetId): Observable<WidgetUIState> {
-    return this.widgetUIStateStore.select(state =>
-      state.entities[widgetId] && state.entities[widgetId]).filter(Boolean);
-  }
-
   visible(widgetId): Observable<boolean> {
-    return this.getById(widgetId).map(widget => widget.visible);
+    return this.widgetUIStateStore.byId(widgetId).map(widget => widget.visible);
   }
 
   ready(widgetId): Observable<boolean> {
-    return this.getById(widgetId).map(widget => widget.ready).filter(Boolean);
+    return this.widgetUIStateStore.byId(widgetId).map(widget => widget.ready).filter(Boolean);
   }
 
   setReady(widgetId) {
@@ -32,10 +27,7 @@ export class WidgetsUIStateService {
         ...state,
         entities: {
           ...state.entities,
-          [widgetId]: {
-            ...state.entities[widgetId],
-            ready: true
-          }
+          [widgetId]: new WidgetUIState({ready: true, visible: true})
         }
       };
     });

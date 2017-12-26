@@ -1,5 +1,5 @@
 <div id="container">
-  <div *ngFor="let widget of widgets">
+  <div *ngFor="let widget of (widgets$ | async)">
     <widget-container [widgetId]="widget.id" [inView]="widget.id"></widget-container>
   </div>
 </div>

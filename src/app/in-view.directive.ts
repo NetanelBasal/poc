@@ -4,19 +4,22 @@ import {WidgetsUIStateService} from "./widgets/widget-ui-state/widget-ui-state.s
 
 // var observer;
 //
-// var options = {
-//   root: document.getElementById("container"),
-//   rootMargin: "0px"
-// };
 //
-// observer = new IntersectionObserver((entries) => {
-//   entries.forEach(entry => {
-//     if (entry["isIntersecting"]) {
-//       console.warn(entry.target);
-//     }
-//   });
-// }, options);
-
+// function observe(cb) {
+//   var options = {
+//     root: document.getElementById("container"),
+//     rootMargin: "0px"
+//   };
+//   if (observer) return observer;
+//   observer = new IntersectionObserver((entries) => {
+//     entries.forEach(entry => {
+//       if (entry["isIntersecting"]) {
+//         cb(entry.target);
+//       }
+//     });
+//   }, options);
+//   return observer;
+// }
 
 @Directive({
   selector: "[inView]"
@@ -48,8 +51,6 @@ export class InViewDirective implements AfterViewInit, OnDestroy {
         });
       });
     });
-
-    // observer.observe(widgetElement);
 
   }
 

@@ -1,6 +1,7 @@
 export class Widget {
-  id;
-
+  id: number;
+  name: string;
+  filters: any; // move to WidgetFilters
   constructor(widget) {
     Object.assign(this, widget);
   }

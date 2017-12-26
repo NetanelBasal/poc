@@ -1,6 +1,5 @@
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {Observable} from "rxjs/Observable";
-import {combineLatest} from "rxjs/observable/combineLatest";
 import {values} from "ramda";
 
 export interface HashMap<T> {
@@ -8,7 +7,6 @@ export interface HashMap<T> {
 }
 
 export interface Entityable {
-  ids: (number | string)[];
   entities: HashMap<any>;
 }
 
@@ -24,7 +22,11 @@ export class Store<T> {
   }
 
   asArray() {
-    return this.select(state => state["entities"]).map(values);
+    return this.select(state => (state as (T & Entityable)).entities).map(values);
+  }
+
+  byId(id: number) {
+    return this.select(state => (state as (T & Entityable)).entities[id]).filter(Boolean);
   }
 
   value(): T {
@@ -32,6 +34,7 @@ export class Store<T> {
   }
 
   update(newStateFn: (state: T) => T) {
+    // console.log('currentState', this.value());
     const newState = newStateFn(this.value());
     // console.log('newState', newState);
     this.dispatch(newState);

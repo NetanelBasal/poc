@@ -25,7 +25,6 @@ export class WidgetsService {
     this.widgetsStore.update(state => {
       return {
         ...state,
-        ids: [...state.ids, widget.id],
         entities: {
           ...state.entities,
           [widget.id]: widget
