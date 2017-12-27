@@ -2,7 +2,7 @@ import {Widget} from "./widget.model";
 import {HashMap, Store} from "../store";
 import {Injectable} from "@angular/core";
 
-interface State {
+export interface State {
   entities: HashMap<Widget>,
   active: number;
 }

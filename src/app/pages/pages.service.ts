@@ -9,19 +9,14 @@ export class PagesService {
   }
 
   add() {
+    const w = []
     for (var i = 0, len = 10; i < len; i++) {
-      this.widgetsService.addWidget(({
+      w.push(({
         id: i + 1,
-        name: `Widget - ${i + 1}`,
-        filters: {
-          date: {
-            from: "a",
-            to: "b"
-          },
-          interactives: [Math.random(), Math.random()]
-        }
+        name: `Widget - ${i + 1}`
       }));
     }
+    this.widgetsService.set(w)
   }
 
 }
